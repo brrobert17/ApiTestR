@@ -8,37 +8,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:63342")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("api")
+@RequestMapping
 @RequiredArgsConstructor
 public class UserController {
 
     final UserService userService;
 
-    @GetMapping
+    @GetMapping("/users")
     public List<User> showUsers() {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/find")
-    public User showUserById(@RequestParam int id) throws UserNotFoundException {
+    @GetMapping
+    public User showUserById(@RequestParam Long id) throws UserNotFoundException {
         return userService.findUserById(id);
     }
 
-    @PostMapping
+    @PutMapping
     public User updateUser(@RequestBody User user) throws UserNotFoundException {
         return userService.updateUser(user);
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public User saveNewUser(@RequestBody User user) throws UserNotFoundException {
         userService.saveUser(user);
         return userService.findUserById(user.getId());
     }
 
-    @GetMapping("/delete")
-    public User deleteUser(@RequestParam int id) throws UserNotFoundException {
+    @DeleteMapping
+    public User deleteUser(@RequestParam Long id) throws UserNotFoundException {
        User user = userService.findUserById(id);
         userService.deleteUserById(id);
         return user;

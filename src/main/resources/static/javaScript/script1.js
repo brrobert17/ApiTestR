@@ -16,7 +16,7 @@ async function fetchData(endpoint, method, body) {
 }
 
 // fetchData(url, "GET", null)
-//fetchData(url+"/find?id=1", "GET", null)
+// fetchData(url+"/find?id=1", "GET", null)
 //
 // const userBody = JSON.stringify({
 //         id: 1,

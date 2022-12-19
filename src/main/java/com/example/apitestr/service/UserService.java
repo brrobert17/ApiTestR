@@ -26,15 +26,8 @@ public class UserService {
         throw new UserNotFoundException("user not found by: " + username);
     }
 
-    public User findUserByEmail(String email) throws UserNotFoundException {
-        Optional<User> result = userRepo.findUserByEmail(email);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new UserNotFoundException("user not found by: " + email);
-    }
 
-    public User findUserById(Integer id) throws UserNotFoundException {
+    public User findUserById(Long id) throws UserNotFoundException {
         Optional<User> result = userRepo.findById(id);
         if (result.isPresent()) {
             return result.get();
@@ -42,7 +35,7 @@ public class UserService {
         throw new UserNotFoundException("user not found by: " + id);
     }
 
-    public void deleteUserById(Integer id) throws UserNotFoundException {
+    public void deleteUserById(Long id) throws UserNotFoundException {
         Optional<User> result = userRepo.findById(id);
         if (result.isEmpty()) {
             throw new UserNotFoundException("user not found by: " + id);
@@ -55,13 +48,13 @@ public class UserService {
     }
 
     public User updateUser(User updatedUser) throws UserNotFoundException {
-        Integer id = updatedUser.getId();
+        Long id = updatedUser.getId();
         Optional<User> result = userRepo.findById(id);
         if (result.isPresent()) {
             User old = result.get();
             old.setUsername(updatedUser.getUsername());
             old.setPassword(updatedUser.getPassword());
-            old.setEmail(updatedUser.getEmail());
+            old.setDetails(updatedUser.getDetails());
             userRepo.save(old);
             return old;
         }

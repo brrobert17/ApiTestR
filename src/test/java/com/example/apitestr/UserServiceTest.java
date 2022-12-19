@@ -39,11 +39,11 @@ class UserServiceTest {
 
     @Test
     public void testListAll() {
-        Iterable<User> users = userService.findAllUsers();
+        List<User> users = userService.findAllUsers();
         Assertions.assertThat(users).hasSizeGreaterThan(0);
         for (User user : users
         ) {
-            System.out.println(users);
+            System.out.println(user);
         }
     }
 
@@ -52,15 +52,15 @@ class UserServiceTest {
         List<User> users = userService.findAllUsers();
         int userIndex = users.size() - 1;
         User user1 = users.get(userIndex);
-        user1.setEmail("newEmail");
+        Long id = user1.getId();
+        user1.setUsername("newUsername");
         userService.updateUser(user1);
-        System.out.println(userService.findUserByEmail("newEmail"));
-        Assertions.assertThat(userService.findUserByEmail("newEmail")).isNotNull();
+        Assertions.assertThat(userService.findUserById(id).getUsername()).isEqualTo("newUsername");
     }
 
     @Test
     public void testGet() throws UserNotFoundException {
-        Assertions.assertThat(userService.findUserById(1)).isNotNull();
+        Assertions.assertThat(userService.findUserById(17L)).isNotNull();
     }
 
     @Test
@@ -68,7 +68,7 @@ class UserServiceTest {
         List<User> users = userService.findAllUsers();
         int userIndex = users.size() - 1;
         User user1 = users.get(userIndex);
-        int id = user1.getId();
+        Long id = user1.getId();
         userRepo.deleteById(id);
         Assertions.assertThat(userRepo.findById(id)).isNotPresent();
     }
